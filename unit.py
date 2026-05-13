@@ -1,8 +1,5 @@
 """
-Модуль 1: Абстрактный класс Unit и его наследники Character и Monster.
-
-Содержит базовый абстрактный класс для всех игровых юнитов,
-а также конкретные реализации для персонажа и монстра.
+Модуль 3: В Unit добавилось 2 атрибута и 2 метода
 """
 from abc import ABC, abstractmethod
 
@@ -36,6 +33,8 @@ class Unit(ABC):
         self.wisdom = wisdom
         self.intelligence = intelligence
         self.charisma = charisma
+        self.spells = []
+        self.mana = 0
 
     @abstractmethod
     def calculate_max_health(self) -> int:
@@ -57,3 +56,23 @@ class Unit(ABC):
         Рассчитать и вернуть показатель защиты юнита.
         """
         pass
+    
+    def add_spell(self, spell):
+        """
+        Добавить заклинание
+        """
+        self.spells.append(spell)
+
+    def cast_spell(self, index):
+        """Применить заклинание по индексу
+        """
+        if index >= len(self.spells):
+            raise IndexError("Нет такого заклинания")
+
+        spell = self.spells[index]
+
+        if self.mana >= spell.mana_cost:
+            self.mana -= spell.mana_cost
+            return spell.cast()
+        else:
+            raise ValueError("Не хватает маны")

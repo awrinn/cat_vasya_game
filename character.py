@@ -1,5 +1,5 @@
 """
-Модуль 2: Класс Character с выбором класса (воин, маг, охотник).
+Модуль 3: Класс Character (было добавлено Заклинания и магия.)
 """
 
 import math
@@ -26,6 +26,8 @@ class Character(Unit):
         self.current_health = self.max_health
         self.damage = self.calculate_damage()
         self.defense = self.calculate_defense()
+        self.max_mana = self.calculate_max_mana()
+        self.mana = self.max_mana
 
     def calculate_max_health(self) -> int:
         """
@@ -54,3 +56,11 @@ class Character(Unit):
             return math.floor(self.wisdom * 1.3 + self.intelligence // 6)
         else:  # hunter
             return math.floor(self.dexterity * 1.6 + self.constitution // 5)
+    
+    def calculate_max_mana(self):
+        if self.character_class == 'warrior':
+            return self.intelligence + self.strength // 2
+        elif self.character_class == 'mage':
+            return self.intelligence * 3 + self.wisdom
+        else:
+            return math.floor(self.dexterity * 1.5 + self.wisdom // 2)
